@@ -1,9 +1,24 @@
 from django.shortcuts import render
 
+from .models import Bouquet
+
 
 # TODO
 def index(request):
-    return render(request, 'flowers_models/index.html')
+    bouquets = Bouquet.objects.prefetch_related('event')
+    bouquet_serialized = []
+    for bouguet in bouquets:
+        bouquet_serialized.append({
+            'id': bouguet.id,
+            'title': bouguet.title,
+            'price': bouguet.price,
+            "images": bouguet.photo.url,
+        })
+
+    print(bouquet_serialized)
+    return render(request, template_name="flowers_models/index.html", context={
+        'bouquets': bouquet_serialized,
+    })
 
 
 # TODO

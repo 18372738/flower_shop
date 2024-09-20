@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+import re
 
 
 ORDER_CHOICES = (
@@ -32,10 +34,36 @@ class Bouquet(models.Model):
         return self.title
 
 
+class Client(models.Model):
+    """Клиенты"""
+    full_name = models.CharField("ФИО", max_length=200)
+    phone = models.CharField('Телефон', max_length=200, unique=True)
+
+    def clean(self):
+        if self.phone:
+            normalized_phone = re.sub(r'\D', '', self.phone)
+            if len(normalized_phone) < 10:
+                raise ValidationError("Номер телефона слишком короткий")
+
+            self.phone = normalized_phone
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super(Client, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.full_name
+
+
 class Order(models.Model):
     """Заказ"""
-    full_name = models.CharField("ФИО", max_length=200)
-    phone = models.CharField('Телефон', max_length=200)
+    client =  models.ForeignKey(
+        Client,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="clients"
+    )
     address = models.CharField("Адрес", max_length=200)
     delivery_date = models.DateTimeField("Дата доставки")
     bouquet = models.ForeignKey(
@@ -52,4 +80,4 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return self.full_name
+        return self.client

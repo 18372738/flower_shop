@@ -769,3 +769,39 @@ color: #2D2D2D;
 
 opacity: 0.3;
 }
+
+/*  catalog css */
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between items */
+}
+
+.catalog__item {
+    flex: 0 0 calc(33.333% - 20px); /* 33.333% width for 3 items per row, subtracting gap space */
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Space at the bottom of each item */
+}
+
+.catalog__image {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    background-size: cover;
+    background-position: center;
+}
+
+.catalog__details {
+    padding: 10px;
+    text-align: center; /* Center align text */
+}
+
+.catalog__name {
+    font-size: 1.2em; /* Adjust font size as needed */
+    margin: 10px 0;
+}
+
+.catalog__price {
+    font-size: 1em; /* Adjust font size as needed */
+    color: #555; /* Adjust color as needed */
+}
+

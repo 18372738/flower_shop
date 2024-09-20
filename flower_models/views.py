@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
+from .forms import UserForm
 from .models import Bouquet
+from django.contrib import messages
 
 
 # TODO
@@ -15,10 +18,21 @@ def index(request):
             "images": bouguet.photo.url,
         })
 
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Заявка успешно создана')
+            return redirect(reverse('flower_models:index'))
+        context = {'form': form, 'bouquets': bouquet_serialized}
+        return render(request, 'flowers_models/index.html', context)
+    context = {
+        'form': UserForm(),
+        'bouquets': bouquet_serialized
+    }
     print(bouquet_serialized)
-    return render(request, template_name="flowers_models/index.html", context={
-        'bouquets': bouquet_serialized,
-    })
+    return render(request, 'flowers_models/index.html', context)
+
 
 
 # TODO

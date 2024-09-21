@@ -170,8 +170,25 @@ bottom: 0;
 .recommended__block:last-child {
 	margin-right: 0;
 }
-.recommended__block_first {
-	background: url('../img/recommendedBg1.jpg') no-repeat center bottom / cover;
+
+.catalog__image {
+	flex-grow: 1;
+	/*width: 100%;*/
+	width: 200px; /* пример ширины */
+    height: 200px; /* пример высоты */
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.catalog__image a {
+     display: block; /* Ссылка как блочный элемент */
+     text-align: center; /* Выравнивание по центру */
+     height: 100%; /* Высота на весь слой */
+     color: #666; /* Цвет ссылки */
+}
+
+/*.recommended__block_first {
+	background: url('../img/recommendedBg2.jpg') no-repeat center bottom / cover;
 }
 .recommended__block_sec {
 	background: url('../img/recommendedBg2.jpg') no-repeat center bottom / cover;
@@ -179,6 +196,7 @@ bottom: 0;
 .recommended__block_thr {
 	background: url('../img/recommendedBg3.jpg') no-repeat center bottom / cover;
 }
+*/
 .recommended__block_elems {
 	width: 100%;
 	padding: 15px;
@@ -331,6 +349,7 @@ opacity: 0.3;
 .catalog__block .recommended__elems {
 	margin-bottom: 10px;
 }
+/*
 .recommended__elems_first .recommended__block_sec {
 	background: url('../img/catalog/catalogBg1.jpg') no-repeat center bottom / cover;
 }
@@ -343,6 +362,7 @@ opacity: 0.3;
 .recommended__elems_sec .recommended__block_sec {
 	background: url('../img/catalog/catalogBg4.jpg') no-repeat center bottom / cover;
 }
+*/
 
 
 /*card.html*/
@@ -749,3 +769,39 @@ color: #2D2D2D;
 
 opacity: 0.3;
 }
+
+/*  catalog css */
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between items */
+}
+
+.catalog__item {
+    flex: 0 0 calc(33.333% - 20px); /* 33.333% width for 3 items per row, subtracting gap space */
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Space at the bottom of each item */
+}
+
+.catalog__image {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    background-size: cover;
+    background-position: center;
+}
+
+.catalog__details {
+    padding: 10px;
+    text-align: center; /* Center align text */
+}
+
+.catalog__name {
+    font-size: 1.2em; /* Adjust font size as needed */
+    margin: 10px 0;
+}
+
+.catalog__price {
+    font-size: 1em; /* Adjust font size as needed */
+    color: #555; /* Adjust color as needed */
+}
+

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .forms import UserForm
@@ -30,14 +30,19 @@ def index(request):
         'form': UserForm(),
         'bouquets': bouquet_serialized
     }
-    print(bouquet_serialized)
     return render(request, 'flowers_models/index.html', context)
 
 
-
 # TODO
-def card(request):
-    return render(request, 'flowers_models/card.html')
+def card(request, bouquet_id):
+    bouquet = get_object_or_404(Bouquet, pk=bouquet_id)
+
+    return render(
+        request,
+        'flowers_models/card.html',
+        {
+            'bouquet': bouquet
+        })
 
 
 # TODO
@@ -63,6 +68,7 @@ def quiz(request):
 # TODO
 def result(request):
     return render(request, 'flowers_models/result.html')
+
 
 # TODO
 def catalog(request):

@@ -6,7 +6,7 @@ app_name = 'flower_models'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('card', card, name='card'),
+    path('card/<int:bouquet_id>', card, name='card'),
     path('consultation', consultation, name='consultation'),
     path('order', order, name='order'),
     path('order_step', order_step, name='order_step'),

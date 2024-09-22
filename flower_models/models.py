@@ -2,7 +2,6 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import re
 
-
 ORDER_CHOICES = (
     ("true", "подтверждение"),
     ("courier", "передан курьеру"),
@@ -28,7 +27,20 @@ class Bouquet(models.Model):
         related_name="events",
     )
     photo = models.ImageField("Фото")
-    description = models.TextField("Описание", blank=True)
+    description = models.TextField(
+        "Описание",
+        blank=True
+    )
+    height = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name='Высота(см)'
+    )
+    width = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name='Ширина(см)'
+    )
 
     def __str__(self):
         return self.title
@@ -57,7 +69,7 @@ class Client(models.Model):
 
 class Order(models.Model):
     """Заказ"""
-    client =  models.ForeignKey(
+    client = models.ForeignKey(
         Client,
         blank=True,
         null=True,

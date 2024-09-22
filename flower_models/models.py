@@ -4,6 +4,7 @@ import re
 
 ORDER_CHOICES = (
     ("true", "подтверждение"),
+    ("collect", "сборка"),
     ("courier", "передан курьеру"),
     ("delivered", "доставлено")
 )
@@ -92,4 +93,4 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return self.client
+        return self.address

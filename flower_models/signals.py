@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from flowers.settings import TELEGRAM_TOKEN, CHAT_ID_ADMINISTRATOR, CHAT_ID_COURIER
-from .models import Order
+from .models import Order, Consultation
 
 bot = telegram.Bot(token=TELEGRAM_TOKEN)
 
@@ -29,3 +29,14 @@ def notify_courier_on_status_change(sender, instance, **kwargs):
         message = f"Заказ {instance.id} для клиента {instance.client} по адресу {instance.address} собран и готов к отправке."
         reply_markup = InlineKeyboardMarkup(keyboard)
         bot.send_message(chat_id=CHAT_ID_COURIER, text=message, reply_markup=reply_markup)
+
+
+@receiver(post_save, sender=Consultation)
+def notify_courier_on_status_change(sender, instance, created, **kwargs):
+    keyboard = [
+        [InlineKeyboardButton('Проконсультировать клиента', callback_data='consult')],
+    ]
+    if created:
+        message = f"Клиент {instance.name} ожидает консультации, телефон {instance.phone}"
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        bot.send_message(chat_id=CHAT_ID_ADMINISTRATOR, text=message, reply_markup=reply_markup)

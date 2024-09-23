@@ -94,3 +94,12 @@ class Order(models.Model):
 
     def __str__(self):
         return self.address
+
+
+class Consultation(models.Model):
+    name = models.CharField("Имя", max_length=100)
+    phone = models.CharField("Номер телефона", max_length=20)
+    consulted = models.BooleanField("Проконсультирован", default=False)
+
+    def __str__(self):
+        return self.name

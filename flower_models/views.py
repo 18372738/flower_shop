@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .forms import UserForm
-from .models import Bouquet
+from .models import Bouquet, Consultation
 from django.contrib import messages
 
 
@@ -47,7 +47,14 @@ def card(request, bouquet_id):
 
 # TODO
 def consultation(request):
-    return render(request, 'flowers_models/consultation.html')
+    if request.method == "POST":
+        name = request.POST.get('fname')
+        phone = request.POST.get('tel')
+        Consultation.objects.create(name=name, phone=phone)
+        messages.success(request, 'Запись на консультацию отправлена. Наш менеджер свяжется с вами в ближайшее время.')
+        return redirect('index')
+
+    return render(request, 'consultation.html')
 
 
 # TODO

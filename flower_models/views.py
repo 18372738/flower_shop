@@ -1,9 +1,12 @@
+from datetime import datetime, time
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .forms import UserForm
-from .models import Bouquet, Consultation
+from .models import Bouquet, Order, Client, Consultation
 from django.contrib import messages
+
 
 
 # TODO
@@ -59,11 +62,51 @@ def consultation(request):
 
 # TODO
 def order(request):
-    return render(request, 'flowers_models/order.html')
+    context = {}
+    if request.method == "POST":
+         context['bouquet_title'] = request.POST['bouquet_title']
+         context['bouquet_price'] = request.POST['bouquet_price']
+         print(type(request.POST))
+         print(context)
+         return render(request, 'flowers_models/order.html', context=context)
+
+    print(context)
+    return render(request, 'flowers_models/order.html', context=context)
 
 
 # TODO
 def order_step(request):
+    context = {}
+    status = "подтверждение"
+
+    if request.method == "POST":
+        bouquet_title = request.POST['bouquet_title']
+        name = request.POST['name']
+        phone = request.POST['phone']
+        bouquet = Bouquet.objects.get(title=bouquet_title)
+        order_time = request.POST['orderTime']
+        # today = datetime.date.today()
+        if order_time:
+            delivery_date = datetime.now()
+
+        try:
+            # Пытаемся найти клиента по имени и телефону
+            client1 = Client.objects.get(full_name=name, phone=phone)
+        except Client.DoesNotExist:
+            # Если клиент не найден, создаем нового
+            client1 = Client.objects.create(full_name=name, phone=phone)
+
+        # Дальнейшие действия с client1 (например, создание заказа)
+        order = Order.objects.create(
+            client=client1,
+            delivery_date=delivery_date,
+            status=status,
+            address=request.POST['address'],
+            bouquet=bouquet
+        )
+
+        return render(request, 'flowers_models/order-step.html') #context=context)
+
     return render(request, 'flowers_models/order-step.html')
 
 

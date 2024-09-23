@@ -27,13 +27,13 @@
                     {% for bouquet in bouquets|slice:"0:3" %}
 
                     <div class="recommended__block recommended__block_first">
+
                         <div class="recommended__block_elems ficb">
-                            <span class="recommended__block_intro">{{bouquet.title}}</span>
-                            <span class="recommended__block_price">{{bouquet.price}}</span>
+                            <span class="recommended__block_intro"> Название: {{bouquet.title}}</span>
+                            <span class="recommended__block_price">Цена: {{bouquet.price}}</span>
                         </div>
-
-
                         <div class="catalog__image" style="background-image: url('{{ bouquet.images }}')">
+                            <a href="{% url 'flower_models:card' bouquet.id %}">
 <!--                           <img src="{{bouquet.images}}" />-->
 
                         </div>

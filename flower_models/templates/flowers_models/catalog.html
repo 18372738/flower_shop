@@ -5,29 +5,32 @@
         <div class="container p100">
             <div class="catalog">
                 <div class="title">Все букеты</div>
-               {% for bouquet in bouquets %}
-               <div class="catalog__item">
-                   <div class="catalog__image" style="background-image: url('{{ bouquet.images }}')"></div>
-                       <div class="catalog__details">
-                           <h3 class="catalog__name">{{ bouquet.title }}</h3>
-                           <p class="catalog__price">{{ bouquet.price }}</p>
-                       </div>
-               </div>
-               {% endfor %}
+                {% for bouquet in bouquets %}
+                    <div class="catalog__item">
+                        <a href="{% url 'flower_models:card' bouquet.id %}">
+                            <div class="catalog__image" style="background-image: url('{{ bouquet.images }}')"></div>
+                        </a>
+                        <div class="catalog__details">
+                            <h3 class="catalog__name">Название {{ bouquet.title }}</h3>
+                            <p class="catalog__price">Стоимость {{ bouquet.price }}</p>
+                        </div>
+
+                    </div>
+                {% endfor %}
             </div>
-<!--            <button class="btn largeBtn catalog__btn">Показать ещё</button>-->
+            <!--            <button class="btn largeBtn catalog__btn">Показать ещё</button>-->
 
         </div>
-    <section id="consultation">
-        <div class="container">
-            <div class="consultation">
-                <div class="title consultation__title">Оставьте заявку на консультацию</div>
-                <form action="#" class="consultation__form" method="POST">
-                    {% csrf_token %}
-						{{form}}
-                    <button type="submit" class="consultation__form_btn">Отправить</button>
-                </form>
+        <section id="consultation">
+            <div class="container">
+                <div class="consultation">
+                    <div class="title consultation__title">Оставьте заявку на консультацию</div>
+                    <form action="#" class="consultation__form" method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="consultation__form_btn">Отправить</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 {% endblock %}

@@ -1,18 +1,11 @@
+import telegram
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import telegram
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, CallbackQuery
-from telegram.ext import Updater, CallbackQueryHandler
-from .models import Order
-from environs import Env
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
+from flowers.settings import TELEGRAM_TOKEN, CHAT_ID_ADMINISTRATOR, CHAT_ID_COURIER
+from .models import Order, Consultation
 
-env = Env()
-env.read_env()
-
-TELEGRAM_TOKEN = env('TELEGRAM_TOKEN')
-CHAT_ID_ADMINISTRATOR = env('CHAT_ID_ADMINISTRATOR')
-CHAT_ID_COURIER = env('CHAT_ID_COURIER')
 bot = telegram.Bot(token=TELEGRAM_TOKEN)
 
 
@@ -36,3 +29,14 @@ def notify_courier_on_status_change(sender, instance, **kwargs):
         message = f"Заказ {instance.id} для клиента {instance.client} по адресу {instance.address} собран и готов к отправке."
         reply_markup = InlineKeyboardMarkup(keyboard)
         bot.send_message(chat_id=CHAT_ID_COURIER, text=message, reply_markup=reply_markup)
+
+
+@receiver(post_save, sender=Consultation)
+def notify_courier_on_status_change(sender, instance, created, **kwargs):
+    keyboard = [
+        [InlineKeyboardButton('Проконсультировать клиента', callback_data='consult')],
+    ]
+    if created:
+        message = f"Клиент {instance.name} ожидает консультации, телефон {instance.phone}"
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        bot.send_message(chat_id=CHAT_ID_ADMINISTRATOR, text=message, reply_markup=reply_markup)

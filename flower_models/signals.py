@@ -1,18 +1,11 @@
+import telegram
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import telegram
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, CallbackQuery
-from telegram.ext import Updater, CallbackQueryHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+from flowers.settings import TELEGRAM_TOKEN, CHAT_ID_ADMINISTRATOR, CHAT_ID_COURIER
 from .models import Order
-from environs import Env
 
-
-env = Env()
-env.read_env()
-
-TELEGRAM_TOKEN = env('TELEGRAM_TOKEN')
-CHAT_ID_ADMINISTRATOR = env('CHAT_ID_ADMINISTRATOR')
-CHAT_ID_COURIER = env('CHAT_ID_COURIER')
 bot = telegram.Bot(token=TELEGRAM_TOKEN)
 
 

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from .constants import DEBUG, SECRET_KEY, TELEGRAM_TOKEN, CHAT_ID_COURIER, CHAT_ID_ADMINISTRATOR, ALLOWED_HOSTS
+from .constants import DEBUG, SECRET_KEY, TELEGRAM_TOKEN, CHAT_ID_COURIER, CHAT_ID_ADMINISTRATOR, ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

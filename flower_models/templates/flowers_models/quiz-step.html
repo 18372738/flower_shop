@@ -12,15 +12,29 @@
                 </div>
                 <div class="quiz__block">
                     <h1 class="quiz__title">На какой бюджет рассчитываете?</h1>
-                    <div class="quiz__elems fic">
-                        <button class="quiz__elem">До 1 000 руб</button>
-                        <button class="quiz__elem">1 000 - 5 000 руб</button>
-                        <button class="quiz__elem">от 5 000 руб</button>
-                        <button class="quiz__elem">Не имеет значения</button>
-                    </div>
+                     <form method="post" action="{% url 'flower_models:quiz_step' %}">
+                        {% csrf_token %}
+                         <div class="quiz__elems fic">
+                            <button type="submit" name="el_price" value="До 1000" class="quiz__elem">До 1 000 руб</button>
+                            <button type="submit" name="el_price" value="До 5000" class="quiz__elem">1 000 - 5 000 руб</button>
+                            <button type="submit" name="el_price" value="От 5000" class="quiz__elem">от 5 000 руб</button>
+                            <button type="submit" name="el_price" value="От 10000" class="quiz__elem">Не имеет значения</button>
+                             <input type="hidden" name="event" value="{{ event }}">
+
+<!--                    <div class="quiz__elems fic">-->
+<!--                        <button class="quiz__elem">До 1 000 руб</button>-->
+<!--                        <button class="quiz__elem">1 000 - 5 000 руб</button>-->
+<!--                        <button class="quiz__elem">от 5 000 руб</button>-->
+<!--                        <button class="quiz__elem">Не имеет значения</button>-->
+<!--                    </div>-->
+
+                         </div>
+                     </form>
+
+
                     <div class="quiz__progress">
                         <div class="quiz__progress_step">
-                            <span class="quiz__progress_num">1</span>
+                            <span class="quiz__progress_num">2</span>
                             <span class="quiz__progress_in"> шаг из </span>
                             <span class="quiz__progress_num">2</span>
                         </div>

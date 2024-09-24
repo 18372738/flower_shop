@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from .forms import UserForm
-from .models import Bouquet, Order, Client, Consultation
+from .models import Bouquet, Order, Client, Consultation, Event
 from django.contrib import messages
 
 
@@ -57,7 +57,8 @@ def consultation(request):
         messages.success(request, 'Запись на консультацию отправлена. Наш менеджер свяжется с вами в ближайшее время.')
         return redirect('index')
 
-    return render(request, 'consultation.html')
+    return render(request, 'flowers_models/consultation.html')
+
 
 
 # TODO
@@ -69,6 +70,9 @@ def order(request):
          print(type(request.POST))
          print(context)
          return render(request, 'flowers_models/order.html', context=context)
+
+    else:
+        return redirect(reverse('flower_models:consultation'))
 
     print(context)
     return render(request, 'flowers_models/order.html', context=context)
@@ -112,11 +116,44 @@ def order_step(request):
 
 # TODO
 def quiz(request):
+    if request.method == 'POST':
+        event_name = request.POST.get('event')
+        print(event_name)
+        context = {
+            'event': event_name
+        }
+        return render(request, 'flowers_models/quiz-step.html', context)
+
+    return render(request, 'flowers_models/quiz.html')
+
+def quiz_step(request):
+    if request.method == 'POST':
+        event = request.POST.get('event')
+        price_range = request.POST.get('el_price')
+        bouquets = Bouquet.objects.filter(event__title=event)
+
+        if price_range:
+            if price_range == "До 1000":
+                bouquets = bouquets.filter(price__lte=1000)
+            elif price_range == "До 5000":
+                bouquets = bouquets.filter(price__gt=1000, price__lte=5000)
+            elif price_range == "От 5000":
+                bouquets = bouquets.filter(price__gt=5000)
+            context = {
+                'bouquets': bouquets,
+            }
+            if bouquets.exists():
+                return render(request, 'flowers_models/result.html', context)
+            else:
+                return render(request, 'flowers_models/quiz.html')
+
     return render(request, 'flowers_models/quiz.html')
 
 
 # TODO
 def result(request):
+    if request.method == 'POST':
+        pass
     return render(request, 'flowers_models/result.html')
 
 

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from flower_models.views import index, card, consultation, order, order_step, quiz, result, catalog
+from flower_models.views import index, card, consultation, order, order_step, quiz, result, catalog, quiz_step
 
 app_name = 'flower_models'
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('order', order, name='order'),
     path('order_step', order_step, name='order_step'),
     path('quiz', quiz, name='quiz'),
+    path('quiz-step', quiz_step, name='quiz_step'),
     path('result', result, name='result'),
     path('catalog', catalog, name='catalog')
 ]

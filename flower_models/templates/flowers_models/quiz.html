@@ -12,11 +12,19 @@
                 </div>
                 <div class="quiz__block">
                     <h1 class="quiz__title">К какому событию нужен букет?</h1>
+                    <form method="post" action="{% url 'flower_models:quiz' %}">
+                        {% csrf_token %}
                     <div class="quiz__elems fic">
-                        <button class="quiz__elem">Свадьба</button>
-                        <button class="quiz__elem">День рождения</button>
-                        <button class="quiz__elem">Без повода</button>
+                        <button type="submit" name="event" value="Свадьба" class="quiz__elem">Свадьба</button>
+                        <button type="submit" name="event" value="День рождения" class="quiz__elem">День рождения</button>
+                        <button type="submit" name="event" value="Без повода" class="quiz__elem">Без повода</button>
+
+
+<!--                        <button class="quiz__elem">Свадьба</button>-->
+<!--                        <button class="quiz__elem">День рождения</button>-->
+<!--                        <button class="quiz__elem">Без повода</button>-->
                     </div>
+                        </form>
                     <div class="quiz__progress">
                         <div class="quiz__progress_step">
                             <span class="quiz__progress_num">1</span>
